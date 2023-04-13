@@ -1,0 +1,56 @@
+<template>
+    <el-menu
+    :default-active="activeIndex"
+    class="el-menu"
+    mode="horizontal"
+    @select="handleSelect"
+    ellipsis="false"
+  >
+    <el-menu-item index="0" ><el-text  type="primary" class="title">博客</el-text></el-menu-item>
+    <div class="flex-grow"></div>
+    <el-menu-item index="1">首页</el-menu-item>
+    <el-menu-item index="2"><el-icon><Plus /></el-icon>创作</el-menu-item>
+    <el-sub-menu index="3">
+      <template #title>文档</template>
+      <el-menu-item index="3-1">JavaScript</el-menu-item>
+      <el-menu-item index="3-2">Vue</el-menu-item>
+      <el-menu-item index="3-3">React</el-menu-item>
+      <el-sub-menu index="3-4">
+        <template #title>其他</template>
+        <el-menu-item index="3-4-1">Vite</el-menu-item>
+        <el-menu-item index="3-4-2">Webpack</el-menu-item>
+        <el-menu-item index="3-4-3">暂无</el-menu-item>
+      </el-sub-menu>
+    </el-sub-menu>
+    <el-menu-item index="4" disabled>随笔</el-menu-item>
+    <el-menu-item index="5" disabled>个人介绍</el-menu-item>
+  </el-menu>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+import {
+    Plus,
+  } from '@element-plus/icons-vue'
+const activeIndex = ref('1')
+const activeIndex2 = ref('1')
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+</script>
+
+<style lang="less" scoped>
+
+.flex-grow {
+  flex-grow: 1;
+}
+.el-menu {
+  position: fixed;
+  width: 100%;
+  height: 10%;
+}
+.title {
+  font-size: 30px;
+}
+</style>
+  
