@@ -1,16 +1,16 @@
 <template>
     <div class="content">
         <div class="leftContent">
-            <TextCard v-for="ele in fakedata" :key="ele.id" :title="ele.title" :main-body="ele.mainBody"></TextCard>
+            <router-view></router-view>
         </div>
-        <div class="avitor">
+        <div class="avitor" v-show="avitorShow">
             <el-card :body-style="{ padding: '0px' }">
                 <img
                 src="https://tupian.qqw21.com/article/UploadPic/2021-3/202132721124233200.jpeg"
                 class="image"
                 />
                 <div style="padding: 14px">
-                <span>马泽伟||Mazewei</span>
+                <span>马泽伟||Mazewei{{menuStore.index}}</span>
                 </div>
             </el-card>
         </div>
@@ -21,9 +21,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import TextCard from '@/components/textCard.vue';
-const fakedata = reactive([
+import { useStore } from '@/store';
+
+const menuStore = useStore();
+const avitorShow = computed(() => menuStore.index === 'createArticle' ? false : true );
+const fakedata = reactive<{
+        id: number, 
+        title: string, 
+        mainBody: string}[]
+        >([
     {
         id: 0,
         title: '拼多多前端一面面经',
@@ -45,13 +53,13 @@ const fakedata = reactive([
 <style lang='less' scoped>
 .content {
     position: absolute;
+    top:8%;
     bottom: 0;
     right: 0;
     width: 100%;
-    height: 90%;
+    overflow: scroll;
     background-color: #e7e7e7;
     display: flex;
-    justify-content: center;
     > div {
         margin-top: 20px;
     }
@@ -81,7 +89,8 @@ const fakedata = reactive([
 }
 .avitor {
     width: 20%;
-    
+    position: fixed;
+    right: 5%;
 }
 .box-card {
   width: 100%;

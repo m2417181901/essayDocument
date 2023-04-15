@@ -8,8 +8,8 @@
   >
     <el-menu-item index="0" ><el-text  type="primary" class="title">博客</el-text></el-menu-item>
     <div class="flex-grow"></div>
-    <el-menu-item index="1">首页</el-menu-item>
-    <el-menu-item index="2"><el-icon><Plus /></el-icon>创作</el-menu-item>
+    <el-menu-item index="homePage">首页</el-menu-item>
+    <el-menu-item index="createArticle"><el-icon><Plus /></el-icon>创作</el-menu-item>
     <el-sub-menu index="3">
       <template #title>文档</template>
       <el-menu-item index="3-1">JavaScript</el-menu-item>
@@ -28,14 +28,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 import {
     Plus,
-  } from '@element-plus/icons-vue'
-const activeIndex = ref('1')
-const activeIndex2 = ref('1')
+  } from '@element-plus/icons-vue';
+import { useRouter } from 'vue-router';
+import { useStore } from '@/store/index';
+
+const activeIndex = ref('1');
+const activeIndex2 = ref('1');
+const Router = useRouter();
+const menuStore = useStore();
 const handleSelect = (key: string, keyPath: string[]) => {
+  if(keyPath.length == 1) {
+    Router.push(key);
+    console.log(key)
+    menuStore.changeMenu(key);
+  }
   console.log(key, keyPath)
+  
+
 }
 </script>
 
@@ -47,7 +59,10 @@ const handleSelect = (key: string, keyPath: string[]) => {
 .el-menu {
   position: fixed;
   width: 100%;
-  height: 10%;
+  height: 8%;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: saturate(50%) blur(8px);
 }
 .title {
   font-size: 30px;
