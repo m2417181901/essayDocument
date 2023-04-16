@@ -1,30 +1,31 @@
 <template>
-     <TextCard v-for="ele in fakedata" :key="ele.id" :title="ele.title" :main-body="ele.mainBody"></TextCard>
-     <TextCard v-for="ele in fakedata" :key="ele.id" :title="ele.title" :main-body="ele.mainBody"></TextCard>
-     <TextCard v-for="ele in fakedata" :key="ele.id" :title="ele.title" :main-body="ele.mainBody"></TextCard>
-</template>
+        <TextCard v-for="ele in eleData.data" :key="ele.id" :title="ele.title" :main-body="ele.text"></TextCard>
+    </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import TextCard from '@/components/textCard.vue';
-const fakedata = reactive([
-    {
-        id: 0,
-        title: '拼多多前端一面面经',
-        mainBody: `如何一次性判断js的全部类型\nwebpack是做什么的，怎么优化\ncss 元素不可见的类型\n手写一个input组件`
-    },
-    {
-        id: 1,
-        title: '哔哩哔哩前端面经分享',
-        mainBody: `说一下useState什么时候同步什么时候异步，为什么？原理是啥？\n 说一下react class和hooks的优缺点\n说一下react fiber\n说一下 proxy和object.defineProperty()的区别`
-    },
-    {
-        id: 2,
-        title: '这是一个随机的题目',
-        mainBody: '这是一个随机的题目'
-    }
-])
+import { getHomepage } from '@/configs/readJson'; 
 
+const eleData = ref<{
+    data: {title: string, text: string, id: string}[]
+}>(
+    {
+        data: [
+            {
+                title: '',
+                text: '',
+                id:''
+            }
+        ]
+    }
+);
+getHomepage().then(res => {
+    eleData.value = res.data;
+});
+onMounted(() => {
+    console.log("执行了挂载方法");
+})
 </script>
 
 <style lang='less' scoped>

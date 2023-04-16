@@ -7,8 +7,9 @@
                 </div>
             </template>
             <div class="card-body">
-                {{ props.mainBody }}
+                <!-- {{ props.mainBody }} -->
                 <!-- TODO:这里需要加上Markdown展示框 -->
+                <v-md-preview :text="props.mainBody"></v-md-preview>
             </div>
         </el-card>
     </KeepAlive>
@@ -37,5 +38,8 @@ const props = defineProps<{
 .box-card {
   width: 70%;
   margin-left: 20px;
+}
+.card-body {
+    text-align: left;
 }
 </style>

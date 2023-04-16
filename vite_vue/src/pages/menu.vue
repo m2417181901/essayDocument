@@ -5,6 +5,7 @@
     mode="horizontal"
     @select="handleSelect"
     ellipsis="false"
+    v-model="index"
   >
     <el-menu-item index="0" ><el-text  type="primary" class="title">博客</el-text></el-menu-item>
     <div class="flex-grow"></div>
@@ -39,13 +40,13 @@ const activeIndex = ref('1');
 const activeIndex2 = ref('1');
 const Router = useRouter();
 const menuStore = useStore();
+const index = ref();
 const handleSelect = (key: string, keyPath: string[]) => {
   if(keyPath.length == 1) {
-    Router.push(key);
-    console.log(key)
+    Router.push(key); 
     menuStore.changeMenu(key);
   }
-  console.log(key, keyPath)
+  console.log(index);
   
 
 }

@@ -34,7 +34,7 @@ watch(() => state.value, (newV: boolean, oldV: boolean) => {
     if(newV == true) {
         const timer = setTimeout(() => {
         state.value = false;
-        }, 4000);
+        }, 2000);
         console.log("触发了watch窗口");
     }
 })
@@ -81,10 +81,10 @@ defineExpose({
 }
 
 .notify-leave-active {
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
 }
 .notify-enter-active {
-    transition: transform 0.5s ease;
+    transition: transform 0.4s ease;
 }
 
 .notify-enter-from,

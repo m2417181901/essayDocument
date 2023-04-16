@@ -2,7 +2,9 @@ const express:NodeRequire = require('express');
 const child_process = require('child_process');
 const iconv = require('iconv-lite');
 const moment = require('moment');
-
+const fs = require('fs');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const encoding = "cp936";
 const binaryEncoding = "binary";
 
@@ -48,21 +50,71 @@ async function run() {
         const time = moment().format("YYYY-MM-DD HH:mm:ss");
         await cmd(`git commit -m "${time}提交"`);
         const state = await cmd("git push");
-        console.log("state");
+        console.log(state);
     }
 }
 
+const app = express('');
+app.use(cors());
+app.use(bodyParser.urlencoded({extends: false}));
+app.use(bodyParser.json());
+const port = 3000;
 
-run()
+app.post('/getdocument', (req:any, res:any) => {
+    const { cate, title, text } = req.body;
+    const time = moment().format("YYYY-MM-DD HH:mm:ss");
 
+    if(cate && title && text)
+        fs.readFile(`../vite_vue/public/${cate}.json`, 
+                    "utf-8", 
+                    (err:any, data:any) => {
 
-// const app = express('');
-// const port = 3000;
+            if(err) {
+                fs.writeFile(
+                    `../vite_vue/public/${cate}.json`, 
+                    JSON.stringify({
+                        data: [
+                            {
+                                title,
+                                text,
+                                id: time
+                            }
+                        ]
+                    }),
+                    function(err: any, data: any) {
+                        if(!err) {
+                            res.send('success');
+                            run();
+                        } else {
+                            res.send(err);
+                        }
+                    }
+                    )
+            } else {
+                const JsonData = JSON.parse(data);
+                JsonData['data'].push({
+                    title,
+                    text,
+                    id: time
+                });
+                fs.writeFile(
+                    `../vite_vue/public/${cate}.json`, 
+                    JSON.stringify(JsonData),
+                    function(err: any, data: any) {
+                        if(!err) {
+                            res.send('success');
+                            run()
+                        } else {
+                            res.send(err);
+                        }
+                    }
+                    )
+            }
+            
+        });
+})
 
-// app.get('/', (req:any, res:any) => {
-//     res.send("Hello World!");
-// })
-
-// app.listen(port, () => {
-//     console.log("sadasd", port);
-// })
+app.listen(port, () => {
+    console.log("开启侦听端口", port);
+}) 
+ 

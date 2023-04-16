@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <div class="leftContent">
+        <div class="leftContent" :style="{width: avitorShow ? '70%' : '80%'}">
             <router-view></router-view>
         </div>
         <div class="avitor" v-show="avitorShow">

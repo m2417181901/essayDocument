@@ -3,7 +3,6 @@ import '@kangc/v-md-editor/lib/style/base-editor.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import Prism from 'prismjs';
-import { App } from 'vue';
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import '@kangc/v-md-editor/lib/style/preview.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
@@ -18,6 +17,6 @@ VMdPreview.use(githubTheme, {
 VueMarkdownEditor.use(vuepressTheme, {
     Prism,
   });
-export default function loadMarkdownEditer(app: App<Element>): void {
+export default function loadMarkdownEditer(app){
     app.use(VueMarkdownEditor).use(VMdPreview)
 }
